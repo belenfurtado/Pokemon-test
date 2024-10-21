@@ -1,0 +1,13 @@
+<button class="start-game-button" *ngIf="showStartButton" (click)="startGame()">Start Game</button>
+
+<div class="game__container" *ngIf="!showStartButton">
+    <div class="pokemon__explosion-container">
+        <div class="pokemon__shadow-container">
+            <img *ngIf="!showImage" class="pokemon__shadow" [src]="pokemonImageUrl" alt="Who's that Pokémon?" />
+            <img *ngIf="showImage" class="pokemon__image" [src]="pokemonImageUrl" alt="{{ pokemonName }}" />
+        </div>
+    </div>
+
+    <!-- Pokémon name revealed after guessing -->
+    <h2 *ngIf="showImage">{{ pokemonName | uppercase }}</h2>
+</div>

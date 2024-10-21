@@ -1,0 +1,21 @@
+.score__panel {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+}
+
+.score__panel-title {
+  font-weight: bold;
+}
+
+.side__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

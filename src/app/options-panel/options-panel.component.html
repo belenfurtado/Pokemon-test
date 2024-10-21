@@ -1,0 +1,7 @@
+<div class="options__panel">
+    <h2 class="options__panel-title">Options</h2>
+    <div class="options__container" *ngIf="!showImage">
+        <button *ngFor="let option of options" (click)="handleAnswer(option)">{{ option }}</button>
+        <button class="options__container-skip" (click)="handleSkip()">Skip</button>
+    </div>
+</div>

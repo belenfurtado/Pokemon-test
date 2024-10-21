@@ -1,0 +1,105 @@
+.game__container {
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+  overflow: hidden;
+}
+
+.start-game-button {
+  cursor: pointer;
+  margin: auto;
+  inset-area: center;
+}
+
+.pokemon__explosion-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+.pokemon__shadow-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.pokemon__shadow {
+  width: 100%;
+  filter: brightness(0) saturate(100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pokemon__image {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.options__container {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  z-index: 1;
+}
+
+.try__again-message {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  animation: fadeInOut 2s ease-in-out;
+  z-index: 2;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+button {
+  background-color: #3b4cca;
+  border: 2px solid #ffcb05;
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+  margin: 10px;
+  border-radius: 50px;
+  color: white;
+  width: 200px;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #ffcb05;
+  color: #3b4cca;
+  transform: scale(1.1);
+}

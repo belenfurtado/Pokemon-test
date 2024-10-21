@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PokemonService } from './services/pokemon/pokemon.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Pokemon-test';
+  gameStart = true;
+
+  constructor(private pokemonService: PokemonService) { }
+
+  ngOnInit() {
+    this.pokemonService.showStartButton$.subscribe((data) => {
+      this.gameStart = !data;
+    });
+  }
 }

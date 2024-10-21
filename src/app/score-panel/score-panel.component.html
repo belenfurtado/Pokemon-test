@@ -1,0 +1,25 @@
+<div class="side__panel">
+    <div class="timer__panel">
+        <app-timer></app-timer>
+    </div>
+
+    <div class="score__panel">
+        <h2 class="score__panel-title">SCORE</h2>
+        <div class="score__panel-maximum">
+            <h4>Maximum Score</h4>
+            <p>{{ maxScore }}</p>
+        </div>
+        <div class="score__panel-actual">
+            <h4>Actual Score</h4>
+            <p>{{ currentScore }}</p>
+        </div>
+        <div class="score__panel-actual">
+            <h4>Lost</h4>
+            <p>{{ incorrectCount }}</p>
+        </div>
+        <div class="score__panel-actual">
+            <h4>Skipped</h4>
+            <p>{{ skippedCount }}</p>
+        </div>
+    </div>
+</div>

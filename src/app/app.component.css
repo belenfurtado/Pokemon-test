@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "PokemonFont";
+  src: url("../assets/fonts/PokemonHollowNormal-pyPZ.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
+  height: 100%;
+  background: url("../assets/Images/background-pokemon.avif") no-repeat center
+    center !important;
+  background-size: cover !important;
+  justify-content: center;
+  text-align: center;
+}
+
+.main__container-game {
+  width: 100%;
+  align-items: center;
+  display: flex;
+}
+
+app-pokemon {
+  flex: 3;
+  margin-right: 20px;
+}
+
+app-score-panel {
+  flex: 1;
+  position: sticky;
+  top: 10px;
+}
+
+.main-container-title {
+  flex-direction: row;
+  font-family: "PokemonFont", sans-serif;
+  color: white;
+  font-weight: bold;
+}

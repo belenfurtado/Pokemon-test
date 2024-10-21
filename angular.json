@@ -102,5 +102,8 @@
       }
     }
   },
-  "defaultProject": "Pokemon-test"
+  "defaultProject": "Pokemon-test",
+  "cli": {
+    "analytics": false
+  }
 }
