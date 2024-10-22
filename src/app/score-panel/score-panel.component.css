@@ -19,3 +19,14 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.score__panel-reset {
+  background-color: #ffcb05;
+  color: #3b4cca;
+}
+
+.score__panel-reset:hover {
+  background-color: #3b4cca;
+  border: 2px solid #ffcb05;
+  color: white;
+}

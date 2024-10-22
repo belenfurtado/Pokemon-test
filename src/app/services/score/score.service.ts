@@ -45,6 +45,17 @@ export class ScoreService {
         this.updateScoreState();
     }
 
+    resetScore(): void {
+        // Reiniciar el puntaje y los contadores
+        this.scoreState = {
+            currentScore: 0,
+            maxScore: 0,
+            incorrectCount: 0,
+            skippedCount: 0
+        };
+        this.updateScoreState();
+    }
+
     private updateScoreState(): void {
         this.scoreSubject.next({ ...this.scoreState });
     }

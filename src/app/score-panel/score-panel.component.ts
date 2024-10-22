@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ScoreService } from '../services/score/score.service';
-import { TimerService } from '../services/timer/timer.service';
 import { Subscription } from 'rxjs';
+import { PokemonService } from '../services/pokemon/pokemon.service';
+import { TimerService } from '../services/timer/timer.service';
 
 @Component({
   selector: 'app-score-panel',
@@ -15,7 +16,7 @@ export class ScorePanelComponent implements OnInit, OnDestroy {
   incorrectCount: number = 0;
   private scoreSubscription!: Subscription;
 
-  constructor(private scoreService: ScoreService) { }
+  constructor(private scoreService: ScoreService, private pokemonService: PokemonService, private timerService: TimerService) { }
 
   ngOnInit(): void {
     this.scoreSubscription = this.scoreService.scoreState$.subscribe((state: any) => {
@@ -34,5 +35,13 @@ export class ScorePanelComponent implements OnInit, OnDestroy {
     if (this.scoreSubscription) {
       this.scoreSubscription.unsubscribe();
     }
+  }
+
+  restartGame(): void {
+    this.pokemonService.resetPokemonState();
+    this.scoreService.resetScore();
+    this.timerService.resetTimer();
+    this.pokemonService.setShowImage(false);
+    this.pokemonService.showStart(true);
   }
 }

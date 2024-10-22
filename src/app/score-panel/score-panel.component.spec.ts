@@ -1,27 +1,32 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ScorePanelComponent } from './score-panel.component';
 import { ScoreService } from '../services/score/score.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TimerComponent } from '../timer/timer.component';
 
 describe('ScorePanelComponent', () => {
   let component: ScorePanelComponent;
   let fixture: ComponentFixture<ScorePanelComponent>;
-  let mockScoreService: jasmine.SpyObj<ScoreService>;
+  let mockScoreService: any;
+  let scoreStateSubject: Subject<any>;
 
   beforeEach(async () => {
-    mockScoreService = jasmine.createSpyObj('ScoreService', ['increaseSkippedCount']);
-    mockScoreService.scoreState$ = of({
-      currentScore: 5,
-      maxScore: 10,
-      skippedCount: 2,
-      incorrectCount: 1
-    });
+    scoreStateSubject = new Subject();
+
+    mockScoreService = {
+      scoreState$: scoreStateSubject.asObservable(),
+      increaseSkippedCount: jasmine.createSpy('increaseSkippedCount'),
+    };
 
     await TestBed.configureTestingModule({
-      declarations: [ScorePanelComponent],
+      imports: [HttpClientModule],
+      declarations: [ScorePanelComponent, TimerComponent],
       providers: [
-        { provide: ScoreService, useValue: mockScoreService }
-      ]
+        { provide: ScoreService, useValue: mockScoreService },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 
@@ -35,23 +40,25 @@ describe('ScorePanelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize score values from the service on ngOnInit', () => {
-    expect(component.currentScore).toBe(5);
-    expect(component.maxScore).toBe(10);
-    expect(component.skippedCount).toBe(2);
-    expect(component.incorrectCount).toBe(1);
-  });
+  it('should subscribe to score state and update score details', fakeAsync(() => {
+    const mockState = { currentScore: 10, maxScore: 20, skippedCount: 3, incorrectCount: 2 };
+    scoreStateSubject.next(mockState);
+    tick();
+    fixture.detectChanges();
+    expect(component.currentScore).toBe(mockState.currentScore);
+    expect(component.maxScore).toBe(mockState.maxScore);
+    expect(component.skippedCount).toBe(mockState.skippedCount);
+    expect(component.incorrectCount).toBe(mockState.incorrectCount);
+  }));
 
-  it('should call increaseSkippedCount when handleSkip is called', () => {
+  it('should handle skip and call increaseSkippedCount', () => {
     component.handleSkip();
     expect(mockScoreService.increaseSkippedCount).toHaveBeenCalled();
   });
 
-  it('should unsubscribe from scoreSubscription on ngOnDestroy', () => {
+  it('should unsubscribe from scoreSubscription on destroy', () => {
     spyOn(component['scoreSubscription'], 'unsubscribe');
-
     component.ngOnDestroy();
-
     expect(component['scoreSubscription'].unsubscribe).toHaveBeenCalled();
   });
 });

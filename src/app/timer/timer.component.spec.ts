@@ -1,31 +1,38 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TimerComponent } from './timer.component';
 import { TimerService } from '../services/timer/timer.service';
 import { PokemonService } from '../services/pokemon/pokemon.service';
 import { ScoreService } from '../services/score/score.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('TimerComponent', () => {
   let component: TimerComponent;
   let fixture: ComponentFixture<TimerComponent>;
-  let mockTimerService: jasmine.SpyObj<TimerService>;
-  let mockPokemonService: jasmine.SpyObj<PokemonService>;
-  let mockScoreService: jasmine.SpyObj<ScoreService>;
+  let mockTimerService: any;
+  let mockPokemonService: any;
+  let mockScoreService: any;
+  let timerSubject: Subject<number>;
 
   beforeEach(async () => {
-    mockTimerService = jasmine.createSpyObj('TimerService', ['startTimer', 'resetTimer']);
-    mockTimerService.timer$ = of(60);
+    timerSubject = new Subject();
 
-    mockPokemonService = jasmine.createSpyObj('PokemonService', ['getRandomPokemon']);
-    mockScoreService = jasmine.createSpyObj('ScoreService', ['increaseScore', 'increaseIncorrectCount', 'increaseSkippedCount']);
+    mockTimerService = {
+      timer$: timerSubject.asObservable(),
+      startTimer: jasmine.createSpy('startTimer'),
+    };
+
+    mockPokemonService = {};
+    mockScoreService = {};
 
     await TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       declarations: [TimerComponent],
       providers: [
         { provide: TimerService, useValue: mockTimerService },
         { provide: PokemonService, useValue: mockPokemonService },
         { provide: ScoreService, useValue: mockScoreService },
-      ]
+      ],
     }).compileComponents();
   });
 
@@ -39,19 +46,21 @@ describe('TimerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the timer value from the service on ngOnInit', () => {
-    expect(component.timer).toBe(60);
-  });
+  it('should subscribe to timer and update timer value', fakeAsync(() => {
+    timerSubject.next(45);
+    tick();
+    fixture.detectChanges();
+    expect(component.timer).toBe(45);
+  }));
 
-  it('should start the timer on ngOnInit', () => {
+  it('should start the timer on init', () => {
     expect(mockTimerService.startTimer).toHaveBeenCalled();
   });
 
-  it('should unsubscribe from timerSubscription on ngOnDestroy', () => {
+  it('should unsubscribe from timerSubscription on destroy', () => {
     spyOn(component['timerSubscription'], 'unsubscribe');
-
     component.ngOnDestroy();
-
     expect(component['timerSubscription'].unsubscribe).toHaveBeenCalled();
   });
 });
+

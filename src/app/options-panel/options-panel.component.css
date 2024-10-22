@@ -1,24 +1,3 @@
-button {
-  background-color: #3b4cca;
-  border: 2px solid #ffcb05;
-  padding: 15px 30px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease-in-out;
-  margin: 10px;
-  border-radius: 50px;
-  color: white;
-  width: 200px;
-  text-align: center;
-}
-
-button:hover {
-  background-color: #ffcb05;
-  color: #3b4cca;
-  transform: scale(1.1);
-}
-
 .options__container {
   display: flex;
   flex-direction: column;
